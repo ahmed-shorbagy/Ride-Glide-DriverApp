@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "24979268019",
+    "project_id": "rideglidefire",
+    "storage_bucket": "rideglidefire.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24979268019:android:89b0dc634565affdf86bc6",
+        "android_client_info": {
+          "package_name": "com.example.ride_glide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24979268019-8gqat656fihrjt7tjet7tgpt5pke2se2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ride_glide",
+            "certificate_hash": "148438dd32c3b0c9291871e85ca0b6ae122bec97"
+          }
+        },
+        {
+          "client_id": "24979268019-0mo2u3t3sd9doi5ej6c89pgjqfr2dusd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCotsBAnkGyoaqppB2t2deVhPmTFsFy28E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24979268019-0mo2u3t3sd9doi5ej6c89pgjqfr2dusd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "24979268019-6q83l5r0hbtg6l8drcknvq40hmp2t7q7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rideGlide.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24979268019:android:d2769756f4638aaef86bc6",
+        "android_client_info": {
+          "package_name": "com.example.ride_glide_driver_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24979268019-0mo2u3t3sd9doi5ej6c89pgjqfr2dusd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCotsBAnkGyoaqppB2t2deVhPmTFsFy28E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24979268019-0mo2u3t3sd9doi5ej6c89pgjqfr2dusd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "24979268019-6q83l5r0hbtg6l8drcknvq40hmp2t7q7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rideGlide.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
