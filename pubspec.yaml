@@ -28,6 +28,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  audioplayers: ^5.2.0
+  cached_network_image: ^3.3.0
   cloud_firestore: ^4.9.2
   connectivity_plus: ^4.0.2
   cupertino_icons: ^1.0.2
@@ -36,6 +38,7 @@ dependencies:
   dropdown_textfield: ^1.0.8
   firebase_auth: ^4.9.0
   firebase_core: ^2.15.1
+  firebase_messaging: ^14.6.9
   firebase_storage: ^11.2.7
   flutter:
     sdk: flutter
@@ -61,19 +64,13 @@ dependencies:
   phone_form_field: ^8.1.0
 
 dev_dependencies:
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icons8-taxi-mobile-app-100.png"  
+  image_path: "assets/icons8-taxi-mobile-app-100.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
@@ -87,6 +84,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+  
+   
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

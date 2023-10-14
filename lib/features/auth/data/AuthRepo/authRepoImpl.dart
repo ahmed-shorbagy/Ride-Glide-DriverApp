@@ -8,6 +8,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ride_glide_driver_app/core/errors/Faluire_model.dart';
 
+FirebaseAuth auth = FirebaseAuth.instance;
+
 class AuthRepo {
   static FirebaseAuth auth = FirebaseAuth.instance;
   static final firestore = FirebaseFirestore.instance;
@@ -68,6 +70,7 @@ class AuthRepo {
         'address': address,
         'gender': gender,
         'imageUrl': imageUrl,
+        'uId': auth.currentUser?.uid ?? ''
       });
       return right(null);
     } catch (e) {

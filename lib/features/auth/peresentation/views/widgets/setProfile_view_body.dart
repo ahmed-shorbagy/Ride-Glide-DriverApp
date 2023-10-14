@@ -115,9 +115,20 @@ class _SetProfileViewBodyState extends State<SetProfileViewBody> {
                     ),
                     Expanded(
                       child: BlocListener<UpdateImageCubit, UpdateImageState>(
-                        listener: (context, state) {
+                        listener: (context, state) async {
                           if (state is UpdateImageSuccess) {
                             UserCubit.driver.imageUrl = state.imageUrl;
+                            await BlocProvider.of<EmailPaswwordCubit>(context)
+                                .addDriverToFireStore(
+                                    imgaeUrl:
+                                        UserCubit.driver.imageUrl ?? 'err',
+                                    address: UserCubit.driver.adress ?? 'err',
+                                    carColor:
+                                        UserCubit.driver.carColor ?? 'err',
+                                    carType: UserCubit.driver.carType ?? 'err',
+                                    gender: UserCubit.driver.gender ?? 'err',
+                                    name: UserCubit.driver.name ?? 'err',
+                                    email: UserCubit.driver.email ?? 'err');
                           }
                         },
                         child: CustomButton(
@@ -128,20 +139,6 @@ class _SetProfileViewBodyState extends State<SetProfileViewBody> {
                                 await BlocProvider.of<UpdateImageCubit>(context)
                                     .uploadDriverImageToFirebase(
                                         imagePath: selectedImagePath ?? '');
-                                await BlocProvider.of<EmailPaswwordCubit>(
-                                        context)
-                                    .addDriverToFireStore(
-                                        imgaeUrl: UserCubit.driver.imageUrl!,
-                                        address:
-                                            UserCubit.driver.adress ?? 'err',
-                                        carColor:
-                                            UserCubit.driver.carColor ?? 'err',
-                                        carType:
-                                            UserCubit.driver.carType ?? 'err',
-                                        gender:
-                                            UserCubit.driver.gender ?? 'err',
-                                        name: UserCubit.driver.name ?? 'err',
-                                        email: UserCubit.driver.email ?? 'err');
 
                                 GoRouter.of(context)
                                     .pushReplacement(AppRouter.kHomeView);

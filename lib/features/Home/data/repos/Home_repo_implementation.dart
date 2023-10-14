@@ -1,10 +1,16 @@
+import 'dart:async';
+import 'package:audioplayers/audioplayers.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:ride_glide_driver_app/core/errors/Faluire_model.dart';
 import 'package:ride_glide_driver_app/core/utils/api_service.dart';
 import 'package:ride_glide_driver_app/features/Home/data/models/place_details/place_details.dart';
 import 'package:ride_glide_driver_app/features/Home/data/models/place_model/place_model.dart';
+import 'package:ride_glide_driver_app/features/Home/data/models/ride_model.dart';
 import 'package:ride_glide_driver_app/features/Home/data/repos/Home_repo.dart';
+import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.dart';
 
 class HomeRepoImpl implements HomeRepo {
   final ApiService apiService;
@@ -93,5 +99,39 @@ class HomeRepoImpl implements HomeRepo {
     // Take only the first wordLimit words and join them back together with spaces
     List<String> truncatedWords = words.take(wordLimit).toList();
     return truncatedWords.join(' ');
+  }
+
+  static List<RideModel> rideRequests = [];
+  static StreamController<List<RideModel>> rideRequestsStreamController =
+      StreamController<List<RideModel>>.broadcast();
+
+  static Either<Faluire, void> listenForRideRequests(String driverId) {
+    try {
+      final CollectionReference ridesCollection =
+          FirebaseFirestore.instance.collection('Rides');
+
+      final Query query =
+          ridesCollection.where('driverUID', isEqualTo: auth.currentUser?.uid);
+
+      final Stream<QuerySnapshot> rideStream = query.snapshots();
+
+      rideStream.listen((QuerySnapshot snapshot) async {
+        List<RideModel> newRideRequests = [];
+        for (QueryDocumentSnapshot rideDoc in snapshot.docs) {
+          // Handle the new ride request document here
+          final newRide =
+              RideModel.fromFireStore(rideDoc.data() as Map<String, dynamic>);
+          newRideRequests.add(newRide); // Add the new ride to the list
+        }
+
+        // Add the new ride requests to the stream
+        rideRequestsStreamController.add(newRideRequests);
+        await AudioPlayer()
+            .play(AssetSource('notifications-sound-127856.mp3'), volume: 4);
+      });
+      return right(rideStream);
+    } catch (e) {
+      return left(ServerFaliure(errMessage: e.toString()));
+    }
   }
 }

@@ -82,6 +82,7 @@ class _InputFieldsSectionForSignUpState
                     await BlocProvider.of<PhoneAuthCubit>(context)
                         .initializephoneSignUp(
                             phoneNumber: UserCubit.driver.phone);
+                            
                     GoRouter.of(context).pushReplacement(
                       AppRouter.kOTPView,
                     );
