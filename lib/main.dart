@@ -2,11 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:ride_glide_driver_app/constants.dart';
 import 'package:ride_glide_driver_app/core/errors/simple_bloc_observer.dart';
 import 'package:ride_glide_driver_app/core/utils/App_router.dart';
 import 'package:ride_glide_driver_app/core/utils/app_theme.dart';
 import 'package:ride_glide_driver_app/core/utils/service_locator.dart';
 import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.dart';
+import 'package:ride_glide_driver_app/features/auth/data/models/driver_Model.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/email_paswword_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/phone_auth_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/user_cubit.dart';
@@ -22,6 +25,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox(kDriverBox);
+  Hive.registerAdapter(DriverModelAdapter());
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   setupServiceLocator();
   runApp(const RideGLideDriverApp());
@@ -78,5 +84,3 @@ class RideGLideDriverApp extends StatelessWidget {
     );
   }
 }
-
-

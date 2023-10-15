@@ -126,8 +126,7 @@ class HomeRepoImpl implements HomeRepo {
 
         // Add the new ride requests to the stream
         rideRequestsStreamController.add(newRideRequests);
-        await AudioPlayer()
-            .play(AssetSource('notifications-sound-127856.mp3'), volume: 4);
+        
       });
       return right(rideStream);
     } catch (e) {
