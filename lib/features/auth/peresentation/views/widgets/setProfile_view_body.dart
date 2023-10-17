@@ -3,9 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ride_glide_driver_app/constants.dart';
 import 'package:ride_glide_driver_app/core/utils/App_router.dart';
 import 'package:ride_glide_driver_app/core/utils/size_config.dart';
+import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.dart';
+import 'package:ride_glide_driver_app/features/auth/data/models/driver_Model.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/email_paswword_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/update_image_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/user_cubit.dart';
@@ -118,17 +122,10 @@ class _SetProfileViewBodyState extends State<SetProfileViewBody> {
                         listener: (context, state) async {
                           if (state is UpdateImageSuccess) {
                             UserCubit.driver.imageUrl = state.imageUrl;
+                            UserCubit.driver.status = true;
+                            UserCubit.driver.uId = auth.currentUser?.uid ?? '';
                             await BlocProvider.of<EmailPaswwordCubit>(context)
-                                .addDriverToFireStore(
-                                    imgaeUrl:
-                                        UserCubit.driver.imageUrl ?? 'err',
-                                    address: UserCubit.driver.adress ?? 'err',
-                                    carColor:
-                                        UserCubit.driver.carColor ?? 'err',
-                                    carType: UserCubit.driver.carType ?? 'err',
-                                    gender: UserCubit.driver.gender ?? 'err',
-                                    name: UserCubit.driver.name ?? 'err',
-                                    email: UserCubit.driver.email ?? 'err');
+                                .addDriverToFireStore(driver: UserCubit.driver);
                           }
                         },
                         child: CustomButton(
@@ -142,6 +139,9 @@ class _SetProfileViewBodyState extends State<SetProfileViewBody> {
 
                                 GoRouter.of(context)
                                     .pushReplacement(AppRouter.kHomeView);
+                                var newuserbox =
+                                    Hive.box<DriverModel>(kDriverBox);
+                                newuserbox.put('driver', UserCubit.driver);
                               }
                             },
                             title: const Text('Save'),

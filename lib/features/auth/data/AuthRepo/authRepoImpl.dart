@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ride_glide_driver_app/core/errors/Faluire_model.dart';
+import 'package:ride_glide_driver_app/features/auth/data/models/driver_Model.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -49,29 +50,13 @@ class AuthRepo {
     }
   }
 
-  Future<Either<Faluire, void>> addNewDriverToFireStore({
-    required String name,
-    required String email,
-    required String carType,
-    required String carColor,
-    required String address,
-    required String gender,
-    required String imageUrl,
-  }) async {
+  Future<Either<Faluire, void>> addNewDriverToFireStore(
+      {required DriverModel driver}) async {
     try {
       final driverRef =
           firestore.collection('Drivers').doc(auth.currentUser?.uid);
-      await driverRef.set({
-        'name': name,
-        'email': email,
-        'status': true,
-        'carColor': carColor,
-        'carType': carType,
-        'address': address,
-        'gender': gender,
-        'imageUrl': imageUrl,
-        'uId': auth.currentUser?.uid ?? ''
-      });
+
+      await driverRef.set(driver.toMap());
       return right(null);
     } catch (e) {
       return left(FirbaseFaluire.fromFirebaseAuth(e.toString()));
@@ -183,4 +168,24 @@ class AuthRepo {
 
 // Example usage: Call trackUserActivity whenever the user interacts with the app
 // For example, in GestureDetector or InkWell onTap callbacks.
+
+  Future<Either<Faluire, DriverModel>> getUserData(
+      {required String uid}) async {
+    try {
+      final userDocument =
+          FirebaseFirestore.instance.collection('Drivers').doc(uid);
+
+      final query = await userDocument.get();
+
+      if (query.exists) {
+        final userData = query.data() as Map<String, dynamic>;
+        final user = DriverModel.fromFireStore(userData);
+        return Right(user);
+      } else {
+        return Left(FirbaseFaluire.fromFirebaseAuth('User not found'));
+      }
+    } catch (e) {
+      return Left(FirbaseFaluire.fromFirebaseAuth(e.toString()));
+    }
+  }
 }

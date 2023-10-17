@@ -27,6 +27,8 @@ class DriverModel extends HiveObject {
   String? carType;
   @HiveField(11)
   String? carColor;
+  bool? status;
+  String? uId;
   DriverModel(
       {this.name,
       this.fullName,
@@ -37,5 +39,41 @@ class DriverModel extends HiveObject {
       required this.phone,
       this.gender,
       this.adress,
-      this.imageUrl});
+      this.imageUrl,
+      this.carColor,
+      this.carType,
+      this.status,
+      this.uId});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'email': email,
+      'password': password,
+      'gender': gender,
+      'address': adress,
+      'imageUrl': imageUrl,
+      'oTp': oTp,
+      'city': city,
+      'fullName': fullName,
+      'carType': carType,
+      'carColor': carColor,
+      'status': status,
+      'UId': uId,
+    };
+  }
+
+  factory DriverModel.fromFireStore(Map<String, dynamic> driver) {
+    return DriverModel(
+        adress: driver['address'],
+        carColor: driver['carColor'],
+        carType: driver['carType'],
+        email: driver['email'],
+        gender: driver['gender'],
+        name: driver['name'],
+        status: driver['status'],
+        imageUrl: driver['imageUrl'],
+        uId: driver['uId'],
+        phone: '');
+  }
 }

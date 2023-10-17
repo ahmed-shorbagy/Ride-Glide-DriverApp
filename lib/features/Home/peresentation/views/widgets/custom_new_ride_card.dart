@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ride_glide_driver_app/core/utils/App_images.dart';
 import 'package:ride_glide_driver_app/core/utils/size_config.dart';
 import 'package:ride_glide_driver_app/features/Home/data/models/ride_model.dart';
 import 'package:ride_glide_driver_app/features/Home/peresentation/views/widgets/custom_network_image.dart';

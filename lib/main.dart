@@ -11,6 +11,7 @@ import 'package:ride_glide_driver_app/core/utils/service_locator.dart';
 import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.dart';
 import 'package:ride_glide_driver_app/features/auth/data/models/driver_Model.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/email_paswword_cubit.dart';
+import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/get_userData_cubit/get_user_data_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/phone_auth_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/user_cubit.dart';
 import 'package:ride_glide_driver_app/firebase_options.dart';
@@ -26,8 +27,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox(kDriverBox);
   Hive.registerAdapter(DriverModelAdapter());
+  await Hive.openBox<DriverModel>(kDriverBox);
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   setupServiceLocator();
   runApp(const RideGLideDriverApp());
@@ -68,6 +70,9 @@ class RideGLideDriverApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => PhoneAuthCubit(AuthRepo()),
+        ),
+        BlocProvider(
+          create: (context) => GetUserDataCubit(AuthRepo()),
         ),
         BlocProvider(
           create: (context) => UserCubit(),

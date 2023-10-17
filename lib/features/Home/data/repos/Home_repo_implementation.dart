@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'package:audioplayers/audioplayers.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:ride_glide_driver_app/constants.dart';
 import 'package:ride_glide_driver_app/core/errors/Faluire_model.dart';
 import 'package:ride_glide_driver_app/core/utils/api_service.dart';
 import 'package:ride_glide_driver_app/features/Home/data/models/place_details/place_details.dart';
@@ -14,7 +14,7 @@ import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.d
 
 class HomeRepoImpl implements HomeRepo {
   final ApiService apiService;
-  final String key = 'AIzaSyCwAe3qJC0pDaLbovyNykTSLRaY5r7N--g';
+  final String key =kGoogleKey ;
   final String types = 'geocode';
 
   HomeRepoImpl({required this.apiService});
