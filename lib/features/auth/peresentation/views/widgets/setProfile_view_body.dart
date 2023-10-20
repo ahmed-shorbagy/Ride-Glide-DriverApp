@@ -123,7 +123,7 @@ class _SetProfileViewBodyState extends State<SetProfileViewBody> {
                           if (state is UpdateImageSuccess) {
                             UserCubit.driver.imageUrl = state.imageUrl;
                             UserCubit.driver.status = true;
-                            UserCubit.driver.uId = auth.currentUser?.uid ?? '';
+
                             await BlocProvider.of<EmailPaswwordCubit>(context)
                                 .addDriverToFireStore(driver: UserCubit.driver);
                           }
@@ -142,6 +142,7 @@ class _SetProfileViewBodyState extends State<SetProfileViewBody> {
                                 var newuserbox =
                                     Hive.box<DriverModel>(kDriverBox);
                                 newuserbox.put('driver', UserCubit.driver);
+                                AuthRepo.updateDriverStatus(status: true);
                               }
                             },
                             title: const Text('Save'),

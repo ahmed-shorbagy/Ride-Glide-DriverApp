@@ -27,15 +27,17 @@ class DriverModelAdapter extends TypeAdapter<DriverModel> {
       gender: fields[4] as String?,
       adress: fields[5] as String?,
       imageUrl: fields[6] as String?,
-    )
-      ..carType = fields[10] as String?
-      ..carColor = fields[11] as String?;
+      carColor: fields[11] as String?,
+      carType: fields[10] as String?,
+      status: fields[12] as bool?,
+      uId: fields[13] as String?,
+    );
   }
 
   @override
   void write(BinaryWriter writer, DriverModel obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -59,7 +61,11 @@ class DriverModelAdapter extends TypeAdapter<DriverModel> {
       ..writeByte(10)
       ..write(obj.carType)
       ..writeByte(11)
-      ..write(obj.carColor);
+      ..write(obj.carColor)
+      ..writeByte(12)
+      ..write(obj.status)
+      ..writeByte(13)
+      ..write(obj.uId);
   }
 
   @override

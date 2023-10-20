@@ -38,15 +38,14 @@ class _InputFieldsSectionForSignInState
       autovalidateMode: autoValidateMode,
       key: formKey,
       child: BlocListener<GetUserDataCubit, GetUserDataState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is GetUserDataSuccess) {
             UserCubit.driver = state.driver;
             var newuserbox = Hive.box<DriverModel>(kDriverBox);
             newuserbox.clear();
             newuserbox.put('driver', UserCubit.driver);
-
-            debugPrint(
-                'THIS IS THE driver INFO   ${newuserbox.values.first.adress} ${newuserbox.values.first.city}     ${newuserbox.values.first.name}  ${newuserbox.values.first.email}  ${newuserbox.values.first.gender}  ${newuserbox.values.first.phone}  ${newuserbox.values.first.imageUrl}  ${newuserbox.values.first.uId}');
+            await BlocProvider.of<EmailPaswwordCubit>(context)
+                .updateDriverStatus(status: true);
           } else if (state is GetUserDataFaluire) {
             snackBar(context, state.errMessage);
           }
@@ -111,8 +110,6 @@ class _InputFieldsSectionForSignInState
 
                         await BlocProvider.of<EmailPaswwordCubit>(context)
                             .signInUser(email: email!, password: password!);
-                        await BlocProvider.of<EmailPaswwordCubit>(context)
-                            .updateDriverStatus(status: true);
                       }
                     },
                     title: state is EmailPaswwordLoadin
@@ -135,5 +132,3 @@ class _InputFieldsSectionForSignInState
     );
   }
 }
-
-class UserModel {}

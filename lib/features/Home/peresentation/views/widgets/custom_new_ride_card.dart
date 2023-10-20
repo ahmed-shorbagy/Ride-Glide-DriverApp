@@ -118,11 +118,11 @@ class CustomNewRideCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomButton(
-                      onPressed: onAccept,
+                      onPressed: onCancel,
                       title: const Text('Cancel'),
                       backgroundColor: Theme.of(context).primaryColor),
                   CustomButton(
-                      onPressed: onCancel,
+                      onPressed: onAccept,
                       title: const Text('Accept'),
                       backgroundColor: Theme.of(context).primaryColor),
                 ],

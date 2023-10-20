@@ -27,7 +27,9 @@ class DriverModel extends HiveObject {
   String? carType;
   @HiveField(11)
   String? carColor;
+  @HiveField(12)
   bool? status;
+  @HiveField(13)
   String? uId;
   DriverModel(
       {this.name,
@@ -73,7 +75,7 @@ class DriverModel extends HiveObject {
         name: driver['name'],
         status: driver['status'],
         imageUrl: driver['imageUrl'],
-        uId: driver['uId'],
+        uId: driver['UId'],
         phone: '');
   }
 }

@@ -7,6 +7,7 @@ class RideModel {
   String? ridePrice;
   String? driverUID;
   String? paymentMethod;
+  String? userUId;
   RideModel(
       {this.locationAddress,
       this.destinationAddress,
@@ -15,17 +16,18 @@ class RideModel {
       this.clientImageUrl,
       this.ridePrice,
       this.driverUID,
-      this.paymentMethod});
+      this.paymentMethod,
+      this.userUId});
   factory RideModel.fromFireStore(Map<String, dynamic> ride) {
     return RideModel(
-      locationAddress: ride['locationAddress'],
-      destinationAddress: ride['destinationAddress'],
-      clientImageUrl: ride['clienImageUrl'],
-      clientName: ride['clientName'],
-      driverUID: ride['driverUID'],
-      paymentMethod: ride['paymentMethod'],
-      ridePrice: ride['ridePrice'],
-      time: ride['time'],
-    );
+        locationAddress: ride['locationAddress'],
+        destinationAddress: ride['destinationAddress'],
+        clientImageUrl: ride['clienImageUrl'],
+        clientName: ride['clientName'],
+        driverUID: ride['driverUID'],
+        paymentMethod: ride['paymentMethod'],
+        ridePrice: ride['ridePrice'],
+        time: ride['time'],
+        userUId: ride['userUid']);
   }
 }

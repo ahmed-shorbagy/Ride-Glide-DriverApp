@@ -14,11 +14,12 @@ import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.d
 
 class HomeRepoImpl implements HomeRepo {
   final ApiService apiService;
-  final String key =kGoogleKey ;
+  final String key = kGoogleKey;
   final String types = 'geocode';
+  static final firestore = FirebaseFirestore.instance;
 
   HomeRepoImpl({required this.apiService});
-  @override
+
   @override
   Future<Either<Faluire, List<PlaceModel>>> getAutoComplete(
       {required String searchInput}) async {
@@ -126,11 +127,34 @@ class HomeRepoImpl implements HomeRepo {
 
         // Add the new ride requests to the stream
         rideRequestsStreamController.add(newRideRequests);
-        
       });
       return right(rideStream);
     } catch (e) {
       return left(ServerFaliure(errMessage: e.toString()));
+    }
+  }
+
+  static Future<Either<Faluire, void>> deleteTHeRide(
+      {required String uid}) async {
+    try {
+      final ridesRef = FirebaseFirestore.instance.collection('Rides').doc(uid);
+      await ridesRef.delete();
+      return right(null);
+    } catch (e) {
+      return left(FirbaseFaluire.fromFirebaseAuth(e.toString()));
+    }
+  }
+
+  static Future<Either<Faluire, void>> updateRideStatus(
+      {required String uID, required bool status}) async {
+    try {
+      final driverRef = firestore.collection('Rides').doc(uID);
+      await driverRef.update({
+        'status': status,
+      });
+      return right(null);
+    } catch (e) {
+      return left(FirbaseFaluire.fromFirebaseAuth(e.toString()));
     }
   }
 }

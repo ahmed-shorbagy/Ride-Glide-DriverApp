@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ride_glide_driver_app/core/utils/App_router.dart';
 import 'package:ride_glide_driver_app/core/utils/methods.dart';
+import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/email_paswword_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/user_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/views/widgets/Custom_appBar.dart';
@@ -135,6 +136,11 @@ class _SetPasswordviewBodyState extends State<SetPasswordviewBody> {
             child: BlocConsumer<EmailPaswwordCubit, EmailPaswwordState>(
               listener: (context, state) {
                 if (state is EmailPaswwordSuccess) {
+                  UserCubit.driver.uId = auth.currentUser!.uid;
+                  debugPrint(
+                      'THIS IS THE DRIVER DATA  = = = = = = = = = = ${UserCubit.driver.uId}');
+                  GoRouter.of(context)
+                      .pushReplacement(AppRouter.kSetProfileView);
                 } else if (state is EmailPaswwordFaluire) {
                   snackBar(context, state.errMessage);
                 }
@@ -154,8 +160,6 @@ class _SetPasswordviewBodyState extends State<SetPasswordviewBody> {
                             passwordsMatch = true;
                             UserCubit.driver.password =
                                 _confirmPasswordController.text;
-                            GoRouter.of(context)
-                                .pushReplacement(AppRouter.kSetProfileView);
                           });
                         }
                         await BlocProvider.of<EmailPaswwordCubit>(context)
