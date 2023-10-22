@@ -5,8 +5,10 @@ import 'package:ride_glide_driver_app/core/utils/service_locator.dart';
 import 'package:ride_glide_driver_app/features/Home/data/repos/Home_repo_implementation.dart';
 import 'package:ride_glide_driver_app/features/Home/peresentation/manager/Places_auto_complete_cubit/places_auto_complete_cubit.dart';
 import 'package:ride_glide_driver_app/features/Home/peresentation/manager/places_details_cubit/place_details_cubit.dart';
+import 'package:ride_glide_driver_app/features/Home/peresentation/views/Profile_view.dart';
 import 'package:ride_glide_driver_app/features/Home/peresentation/views/SelectTransport_View.dart';
 import 'package:ride_glide_driver_app/features/Home/peresentation/views/home_view.dart';
+import 'package:ride_glide_driver_app/features/Home/peresentation/views/widgets/new_ride_route_body.dart';
 import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/update_image_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/views/OTP_view.dart';
@@ -32,6 +34,8 @@ abstract class AppRouter {
   static const String kSelectTransportView = '/SelectTransportView';
   static const String kAvaialbeCarsView = '/AvaialbeCarsView';
   static const String kChooseLocationOnMapView = '/ChooseLocationOnMapView';
+  static const String kNewRideRouteView = '/NewRideRouteView';
+  static const String kProfileView = '/ProfileView';
 
   static final router = GoRouter(
     routes: [
@@ -82,6 +86,12 @@ abstract class AppRouter {
         },
       ),
       GoRoute(
+        path: kNewRideRouteView,
+        pageBuilder: (context, state) {
+          return transition(child: const NewRideRouteBody());
+        },
+      ),
+      GoRoute(
         path: kSetPaswwordView,
         pageBuilder: (context, state) {
           return transition(child: const SetPasswordView());
@@ -101,6 +111,12 @@ abstract class AppRouter {
         path: kSignInView,
         pageBuilder: (context, state) {
           return transition(child: const SignInView());
+        },
+      ),
+      GoRoute(
+        path: kProfileView,
+        pageBuilder: (context, state) {
+          return transition(child: const ProfileView());
         },
       ),
       GoRoute(

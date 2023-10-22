@@ -1,8 +1,11 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ride_glide_driver_app/core/utils/App_router.dart';
 import 'package:ride_glide_driver_app/core/utils/size_config.dart';
 import 'package:ride_glide_driver_app/features/Home/data/models/ride_model.dart';
 import 'package:ride_glide_driver_app/features/Home/data/repos/Home_repo_implementation.dart';
+import 'package:ride_glide_driver_app/features/Home/peresentation/manager/New_Ride_cubit/new_ride_cubit.dart';
 import 'package:ride_glide_driver_app/features/Home/peresentation/views/widgets/custom_new_ride_card.dart';
 
 class ListenForRides extends StatelessWidget {
@@ -18,6 +21,7 @@ class ListenForRides extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.hasData) {
             List<RideModel> rideRequests = snapshot.data!;
+
             AudioPlayer().play(AssetSource('notifications-sound-127856.mp3'),
                 volume: 100);
             return Padding(
@@ -28,6 +32,7 @@ class ListenForRides extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     itemCount: rideRequests.length,
                     itemBuilder: (context, index) {
+                      NewRideCubit.ride = rideRequests[index];
                       return Center(
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -37,17 +42,16 @@ class ListenForRides extends StatelessWidget {
                               await HomeRepoImpl.updateRideStatus(
                                   uID: rideRequests[index].userUId!,
                                   status: true);
-                              await HomeRepoImpl.deleteTHeRide(
-                                  uid: rideRequests[index].userUId!);
+
                               rideRequests.clear();
+                              GoRouter.of(context)
+                                  .pushReplacement(AppRouter.kNewRideRouteView);
                             },
                             onCancel: () async {
                               await HomeRepoImpl.updateRideStatus(
                                   uID: rideRequests[index].userUId!,
                                   status: false);
 
-                              await HomeRepoImpl.deleteTHeRide(
-                                  uid: rideRequests[index].userUId!);
                               rideRequests.clear();
                             },
                           ),

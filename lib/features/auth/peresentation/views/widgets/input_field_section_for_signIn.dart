@@ -42,8 +42,11 @@ class _InputFieldsSectionForSignInState
           if (state is GetUserDataSuccess) {
             UserCubit.driver = state.driver;
             var newuserbox = Hive.box<DriverModel>(kDriverBox);
-            newuserbox.clear();
-            newuserbox.put('driver', UserCubit.driver);
+            if (newuserbox.isNotEmpty) {
+              newuserbox.deleteAt(0);
+            }
+            DriverModel driver = state.driver;
+            await newuserbox.add(driver);
             await BlocProvider.of<EmailPaswwordCubit>(context)
                 .updateDriverStatus(status: true);
           } else if (state is GetUserDataFaluire) {

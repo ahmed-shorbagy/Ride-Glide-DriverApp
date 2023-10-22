@@ -25,4 +25,5 @@ class Assets {
   static const String CycleIcon = "assets/Cycle.png";
   static const String TaxiIcon = "assets/Taxi.png";
   static const String BikeIcon = "assets/Bike.png";
+  static const String CarMarkerIcon = "assets/Track.png";
 }

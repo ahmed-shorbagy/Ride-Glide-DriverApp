@@ -57,6 +57,7 @@ class _HomeViewBodyState extends State<HomeViewBody>
       child: Stack(
         children: [
           GoogleMap(
+            zoomControlsEnabled: false,
             onMapCreated: (controller) {
               setState(() {
                 mapController = controller;

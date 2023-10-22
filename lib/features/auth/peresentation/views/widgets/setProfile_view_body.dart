@@ -141,7 +141,11 @@ class _SetProfileViewBodyState extends State<SetProfileViewBody> {
                                     .pushReplacement(AppRouter.kHomeView);
                                 var newuserbox =
                                     Hive.box<DriverModel>(kDriverBox);
-                                newuserbox.put('driver', UserCubit.driver);
+                                if (newuserbox.isNotEmpty) {
+                                  newuserbox.deleteAt(0);
+                                }
+
+                                await newuserbox.add(UserCubit.driver);
                                 AuthRepo.updateDriverStatus(status: true);
                               }
                             },
