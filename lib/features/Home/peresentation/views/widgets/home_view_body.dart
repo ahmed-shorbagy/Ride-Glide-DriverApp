@@ -6,6 +6,7 @@ import 'package:ride_glide_driver_app/core/utils/App_images.dart';
 import 'package:ride_glide_driver_app/core/utils/methods.dart';
 import 'package:ride_glide_driver_app/core/utils/size_config.dart';
 import 'package:ride_glide_driver_app/features/Home/data/repos/Home_repo_implementation.dart';
+import 'package:ride_glide_driver_app/features/Home/peresentation/views/home_view.dart';
 import 'package:ride_glide_driver_app/features/Home/peresentation/views/widgets/Custom_Listen_for_rides.dart';
 import 'package:ride_glide_driver_app/features/Home/peresentation/views/widgets/Custom_bottomBar.dart';
 import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.dart';
@@ -124,7 +125,9 @@ class _HomeViewBodyState extends State<HomeViewBody>
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: CustomButton(
                   backgroundColor: const Color(0xff8AD4B5),
-                  onPressed: () {},
+                  onPressed: () {
+                    scaffoldKey.currentState!.openDrawer();
+                  },
                   title: const Icon(
                     Icons.menu,
                     color: Colors.black,

@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
     this.obscuretext,
     this.textEditingController,
     this.onTap,
+    this.initialValue,
   });
 
   final void Function(String) onChanged;
@@ -18,9 +19,11 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool? obscuretext;
   final void Function()? onTap;
+  final String? initialValue;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       onTap: onTap,
       controller: textEditingController,
       obscureText: obscuretext ?? false,

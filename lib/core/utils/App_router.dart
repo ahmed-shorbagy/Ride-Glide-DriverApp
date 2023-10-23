@@ -46,7 +46,7 @@ abstract class AppRouter {
       GoRoute(
         path: kHomeView,
         pageBuilder: (context, state) {
-          return transition(
+          return basicTransition(
             child: MultiBlocProvider(
               providers: [
                 BlocProvider(
@@ -70,37 +70,37 @@ abstract class AppRouter {
       GoRoute(
         path: kAuthWelcomeView,
         pageBuilder: (context, state) {
-          return transition(child: const WelcomeView());
+          return basicTransition(child: const WelcomeView());
         },
       ),
       GoRoute(
         path: kSignUpView,
         pageBuilder: (context, state) {
-          return transition(child: const SignUpView());
+          return basicTransition(child: const SignUpView());
         },
       ),
       GoRoute(
         path: kOTPView,
         pageBuilder: (context, state) {
-          return transition(child: const OTPView());
+          return basicTransition(child: const OTPView());
         },
       ),
       GoRoute(
         path: kNewRideRouteView,
         pageBuilder: (context, state) {
-          return transition(child: const NewRideRouteBody());
+          return basicTransition(child: const NewRideRouteBody());
         },
       ),
       GoRoute(
         path: kSetPaswwordView,
         pageBuilder: (context, state) {
-          return transition(child: const SetPasswordView());
+          return basicTransition(child: const SetPasswordView());
         },
       ),
       GoRoute(
         path: kSetProfileView,
         pageBuilder: (context, state) {
-          return transition(
+          return basicTransition(
               child: BlocProvider(
             create: (context) => UpdateImageCubit(AuthRepo()),
             child: const SetProfileView(),
@@ -110,38 +110,54 @@ abstract class AppRouter {
       GoRoute(
         path: kSignInView,
         pageBuilder: (context, state) {
-          return transition(child: const SignInView());
+          return basicTransition(child: const SignInView());
         },
       ),
       GoRoute(
         path: kProfileView,
         pageBuilder: (context, state) {
-          return transition(child: const ProfileView());
+          return stylishSideTransition(
+            child: const UserProfileView(),
+          );
         },
       ),
       GoRoute(
         path: kverifyEmailView,
         pageBuilder: (context, state) {
-          return transition(child: const VerifyEmailView());
+          return basicTransition(child: const VerifyEmailView());
         },
       ),
       GoRoute(
         path: kSelectTransportView,
         pageBuilder: (context, state) {
-          return transition(child: const SelectTransportView());
+          return basicTransition(child: const SelectTransportView());
         },
       ),
     ],
   );
 }
 
-CustomTransitionPage transition({required child}) {
+CustomTransitionPage basicTransition({required child}) {
   return CustomTransitionPage(
     transitionDuration: const Duration(milliseconds: 400),
     child: child,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return FadeTransition(
         opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+        child: child,
+      );
+    },
+  );
+}
+
+CustomTransitionPage stylishSideTransition({required child}) {
+  return CustomTransitionPage(
+    transitionDuration: const Duration(milliseconds: 400),
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero)
+            .animate(animation),
         child: child,
       );
     },

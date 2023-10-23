@@ -6,13 +6,16 @@ class CustomPhoneField extends StatelessWidget {
     super.key,
     required this.autoValidateMode,
     required this.onChanged,
+    this.initialValue,
   });
 
   final AutovalidateMode autoValidateMode;
   final void Function(PhoneNumber?) onChanged;
+  final PhoneNumber? initialValue;
   @override
   Widget build(BuildContext context) {
     return PhoneFormField(
+      initialValue: initialValue,
       defaultCountry: IsoCode.EG,
       autovalidateMode: autoValidateMode,
       validator: PhoneValidator.compose([

@@ -26,4 +26,11 @@ class Assets {
   static const String TaxiIcon = "assets/Taxi.png";
   static const String BikeIcon = "assets/Bike.png";
   static const String CarMarkerIcon = "assets/Track.png";
+  static const String HistoryIcon = "assets/History.png";
+  static const String ComplainIcon = "assets/Complain.png";
+  static const String HelpIcon = "assets/Help and Support.png";
+  static const String SettingsIcon = "assets/Settings.png";
+  static const String RefferalIcon = "assets/Referral.png";
+  static const String LogOutIcon = "assets/Logout.png";
+  static const String AboutUsIcon = "assets/About Us.png";
 }
