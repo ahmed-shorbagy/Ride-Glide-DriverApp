@@ -25,6 +25,7 @@ class _NewRideRouteBodyState extends State<NewRideRouteBody> {
 
   final Completer<GoogleMapController> _mapController =
       Completer<GoogleMapController>();
+  bool _isMounted = false;
 
   LatLng _currentP = const LatLng(30.0444, 31.2357);
 
@@ -33,16 +34,27 @@ class _NewRideRouteBodyState extends State<NewRideRouteBody> {
   @override
   void initState() {
     super.initState();
-    getLocationUpdates().then(
-      (_) => {
-        getPolylinePoints().then((coordinates) => {
-              generatePolyLineFromPoints(coordinates),
-            }),
-      },
-    );
+
+    _isMounted = true;
+
+    getLocationUpdates().then((_) {
+      if (_isMounted) {
+        getPolylinePoints().then((coordinates) {
+          if (_isMounted) {
+            generatePolyLineFromPoints(coordinates);
+          }
+        });
+      }
+    });
     getBytesFromAsset(Assets.CarMarkerIcon, 100).then((onValue) {
       locationMarkerIcon = BitmapDescriptor.fromBytes(onValue);
     });
+  }
+
+  @override
+  void dispose() {
+    _isMounted = false;
+    super.dispose();
   }
 
   @override
@@ -102,8 +114,7 @@ class _NewRideRouteBodyState extends State<NewRideRouteBody> {
 
     _locationController.onLocationChanged
         .listen((LocationData currentLocation) {
-      if (currentLocation.latitude != null &&
-          currentLocation.longitude != null) {
+      if (_isMounted) {
         setState(() {
           _currentP =
               LatLng(currentLocation.latitude!, currentLocation.longitude!);
@@ -126,10 +137,7 @@ class _NewRideRouteBodyState extends State<NewRideRouteBody> {
       for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       }
-    } else {
-      debugPrint(
-          'tHIS IS THE ERROR MESSAGE  = = = =  = =  ()(() ==${result.errorMessage})');
-    }
+    } else {}
     return polylineCoordinates;
   }
 

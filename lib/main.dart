@@ -12,6 +12,7 @@ import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.d
 import 'package:ride_glide_driver_app/features/auth/data/models/driver_Model.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/email_paswword_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/get_userData_cubit/get_user_data_cubit.dart';
+import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/get_userData_cubit/log_out_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/phone_auth_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/user_cubit.dart';
 import 'package:ride_glide_driver_app/firebase_options.dart';
@@ -70,6 +71,9 @@ class RideGLideDriverApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => PhoneAuthCubit(AuthRepo()),
+        ),
+        BlocProvider(
+          create: (context) => LogOutCubit(),
         ),
         BlocProvider(
           create: (context) => GetUserDataCubit(AuthRepo()),

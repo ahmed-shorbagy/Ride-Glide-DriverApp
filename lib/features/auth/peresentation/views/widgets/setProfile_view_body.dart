@@ -123,6 +123,8 @@ class _SetProfileViewBodyState extends State<SetProfileViewBody> {
                           if (state is UpdateImageSuccess) {
                             UserCubit.driver.imageUrl = state.imageUrl;
                             UserCubit.driver.status = true;
+                            GoRouter.of(context)
+                                .pushReplacement(AppRouter.kHomeView);
 
                             await BlocProvider.of<EmailPaswwordCubit>(context)
                                 .addDriverToFireStore(driver: UserCubit.driver);
@@ -137,8 +139,6 @@ class _SetProfileViewBodyState extends State<SetProfileViewBody> {
                                     .uploadDriverImageToFirebase(
                                         imagePath: selectedImagePath ?? '');
 
-                                GoRouter.of(context)
-                                    .pushReplacement(AppRouter.kHomeView);
                                 var newuserbox =
                                     Hive.box<DriverModel>(kDriverBox);
                                 if (newuserbox.isNotEmpty) {
