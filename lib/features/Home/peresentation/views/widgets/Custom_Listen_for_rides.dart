@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -19,17 +21,25 @@ class ListenForRides extends StatefulWidget {
 
 class _ListenForRidesState extends State<ListenForRides> {
   List<RideModel> rideRequests = [];
-
+  StreamSubscription<List<RideModel>>? _streamSubscription;
   @override
   void initState() {
     super.initState();
-    HomeRepoImpl.rideRequestsStreamController.stream.listen((data) {
+    _streamSubscription =
+        HomeRepoImpl.rideRequestsStreamController.stream.listen((data) {
       setState(() {
         rideRequests = data;
       });
       AudioPlayer()
           .play(AssetSource('notifications-sound-127856.mp3'), volume: 100);
     });
+  }
+
+  @override
+  void dispose() {
+    _streamSubscription
+        ?.cancel(); // Cancel the subscription when disposing the widget
+    super.dispose();
   }
 
   @override

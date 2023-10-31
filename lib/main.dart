@@ -10,11 +10,13 @@ import 'package:ride_glide_driver_app/core/utils/app_theme.dart';
 import 'package:ride_glide_driver_app/core/utils/service_locator.dart';
 import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.dart';
 import 'package:ride_glide_driver_app/features/auth/data/models/driver_Model.dart';
+import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/change_password_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/email_paswword_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/get_userData_cubit/get_user_data_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/get_userData_cubit/log_out_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/phone_auth_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/user_cubit.dart';
+import 'package:ride_glide_driver_app/features/auth/peresentation/manager/delete_password_cubit/delete_password_cubit.dart';
 import 'package:ride_glide_driver_app/firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -80,6 +82,12 @@ class RideGLideDriverApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => UserCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ChangePasswordCubit(),
+        ),
+        BlocProvider(
+          create: (context) => DeletePasswordCubit(),
         ),
         BlocProvider(
           create: (context) => EmailPaswwordCubit(AuthRepo()),
