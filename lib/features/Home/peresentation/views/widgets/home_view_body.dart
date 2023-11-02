@@ -121,12 +121,13 @@ class _HomeViewBodyState extends State<HomeViewBody>
           ),
           Positioned(
             top: 60,
+            right: isArabic() ? 16 : SizeConfig.defaultSize! * 32,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: CustomButton(
                   backgroundColor: const Color(0xff8AD4B5),
                   onPressed: () {
-                    scaffoldKey.currentState!.openDrawer();
+                    scaffoldKey!.currentState!.openDrawer();
                   },
                   title: const Icon(
                     Icons.menu,
@@ -136,7 +137,7 @@ class _HomeViewBodyState extends State<HomeViewBody>
           ),
           Positioned(
             top: 60,
-            right: 15,
+            left: isArabic() ? 16 : SizeConfig.defaultSize! * 32,
             child: CustomButton(
                 backgroundColor: Colors.white,
                 onPressed: () {},

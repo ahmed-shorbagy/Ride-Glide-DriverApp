@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -51,4 +51,8 @@ Future<Uint8List> getBytesFromAsset(String path, int width) async {
   return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
       .buffer
       .asUint8List();
+}
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
 }

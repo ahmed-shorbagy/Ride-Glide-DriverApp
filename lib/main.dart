@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:ride_glide_driver_app/constants.dart';
 import 'package:ride_glide_driver_app/core/errors/simple_bloc_observer.dart';
@@ -18,6 +19,7 @@ import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/user_cubit.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/delete_password_cubit/delete_password_cubit.dart';
 import 'package:ride_glide_driver_app/firebase_options.dart';
+import 'package:ride_glide_driver_app/generated/l10n.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -94,6 +96,14 @@ class RideGLideDriverApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
+        locale: const Locale('ar'),
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
         routerConfig: AppRouter.router,
         debugShowCheckedModeBanner: false,
         theme: theme(),

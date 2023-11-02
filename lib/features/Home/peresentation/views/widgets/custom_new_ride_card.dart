@@ -3,6 +3,7 @@ import 'package:ride_glide_driver_app/core/utils/size_config.dart';
 import 'package:ride_glide_driver_app/features/Home/data/models/ride_model.dart';
 import 'package:ride_glide_driver_app/features/Home/peresentation/views/widgets/custom_network_image.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/views/widgets/custom_button.dart';
+import 'package:ride_glide_driver_app/generated/l10n.dart';
 
 class CustomNewRideCard extends StatelessWidget {
   const CustomNewRideCard({
@@ -28,7 +29,7 @@ class CustomNewRideCard extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text('You Have a New Trip !',
+            child: Text(S.of(context).YouHaveaNewTrip,
                 style: Theme.of(context)
                     .textTheme
                     .headlineSmall!
@@ -119,11 +120,11 @@ class CustomNewRideCard extends StatelessWidget {
                 children: [
                   CustomButton(
                       onPressed: onCancel,
-                      title: const Text('Cancel'),
+                      title: Text(S.of(context).Cancel),
                       backgroundColor: Theme.of(context).primaryColor),
                   CustomButton(
                       onPressed: onAccept,
-                      title: const Text('Accept'),
+                      title: Text(S.of(context).Accept),
                       backgroundColor: Theme.of(context).primaryColor),
                 ],
               ),
