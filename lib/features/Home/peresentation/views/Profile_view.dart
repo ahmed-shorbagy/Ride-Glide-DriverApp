@@ -37,7 +37,6 @@ class UserProfileView extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 32, horizontal: 16),
                         child: CustomButton(
-                          backgroundColor: Colors.white,
                           onPressed: () async {
                             try {
                               await auth.signOut();
@@ -52,9 +51,7 @@ class UserProfileView extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
-                                .copyWith(
-                                    color: Theme.of(context).primaryColor,
-                                    fontSize: 16),
+                                .copyWith(fontSize: 16),
                           ),
                         ),
                       ),

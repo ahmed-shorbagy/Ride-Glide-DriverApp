@@ -4,6 +4,15 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:ride_glide_driver_app/core/utils/App_images.dart';
+
+String? lightMapStyle;
+String? darkMapStyle;
+
+void loadMapStyles() async {
+  lightMapStyle = await rootBundle.loadString(Assets.MapsLightMode);
+  darkMapStyle = await rootBundle.loadString(Assets.MapsDarkMode);
+}
 
 void snackBar(BuildContext context, String massage) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

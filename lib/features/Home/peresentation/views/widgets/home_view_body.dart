@@ -6,7 +6,6 @@ import 'package:ride_glide_driver_app/core/utils/App_images.dart';
 import 'package:ride_glide_driver_app/core/utils/methods.dart';
 import 'package:ride_glide_driver_app/core/utils/size_config.dart';
 import 'package:ride_glide_driver_app/features/Home/data/repos/Home_repo_implementation.dart';
-import 'package:ride_glide_driver_app/features/Home/peresentation/views/home_view.dart';
 import 'package:ride_glide_driver_app/features/Home/peresentation/views/widgets/Custom_Listen_for_rides.dart';
 import 'package:ride_glide_driver_app/features/Home/peresentation/views/widgets/Custom_bottomBar.dart';
 import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.dart';
@@ -14,8 +13,9 @@ import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/
 import 'package:ride_glide_driver_app/features/auth/peresentation/views/widgets/custom_button.dart';
 
 class HomeViewBody extends StatefulWidget {
-  const HomeViewBody({Key? key}) : super(key: key);
+  const HomeViewBody({Key? key, required this.scaffoldKey}) : super(key: key);
 
+  final GlobalKey<ScaffoldState> scaffoldKey;
   @override
   State<HomeViewBody> createState() => _HomeViewBodyState();
 }
@@ -60,6 +60,12 @@ class _HomeViewBodyState extends State<HomeViewBody>
           GoogleMap(
             zoomControlsEnabled: false,
             onMapCreated: (controller) {
+              if (Theme.of(context).brightness == Brightness.dark) {
+                controller.setMapStyle(darkMapStyle);
+              } else {
+                controller.setMapStyle(lightMapStyle);
+              }
+
               setState(() {
                 mapController = controller;
               });
@@ -77,7 +83,6 @@ class _HomeViewBodyState extends State<HomeViewBody>
                     title: 'Current location',
                   ))
             },
-            mapType: MapType.terrain,
             myLocationEnabled: true,
             compassEnabled: true,
           ),
@@ -127,7 +132,7 @@ class _HomeViewBodyState extends State<HomeViewBody>
               child: CustomButton(
                   backgroundColor: const Color(0xff8AD4B5),
                   onPressed: () {
-                    scaffoldKey!.currentState!.openDrawer();
+                    widget.scaffoldKey.currentState!.openDrawer();
                   },
                   title: const Icon(
                     Icons.menu,

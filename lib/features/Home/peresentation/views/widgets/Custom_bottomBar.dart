@@ -28,9 +28,9 @@ class _CustomBottombarState extends State<CustomBottombar> {
     return Container(
       width: SizeConfig.screenwidth,
       height: 80,
-      decoration: const ShapeDecoration(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
+      decoration: ShapeDecoration(
+        color: Theme.of(context).secondaryHeaderColor,
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(32),
             topRight: Radius.circular(32),

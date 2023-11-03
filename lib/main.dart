@@ -1,14 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:provider/provider.dart';
 import 'package:ride_glide_driver_app/constants.dart';
 import 'package:ride_glide_driver_app/core/errors/simple_bloc_observer.dart';
 import 'package:ride_glide_driver_app/core/utils/App_router.dart';
 import 'package:ride_glide_driver_app/core/utils/app_theme.dart';
+import 'package:ride_glide_driver_app/core/utils/methods.dart';
 import 'package:ride_glide_driver_app/core/utils/service_locator.dart';
+import 'package:ride_glide_driver_app/features/Home/peresentation/manager/Language_cubit/language_cubit.dart';
+import 'package:ride_glide_driver_app/features/Home/peresentation/manager/Theme_provider/Theme_provider.dart';
 import 'package:ride_glide_driver_app/features/auth/data/AuthRepo/authRepoImpl.dart';
 import 'package:ride_glide_driver_app/features/auth/data/models/driver_Model.dart';
 import 'package:ride_glide_driver_app/features/auth/peresentation/manager/cubit/change_password_cubit.dart';
@@ -21,49 +24,23 @@ import 'package:ride_glide_driver_app/features/auth/peresentation/manager/delete
 import 'package:ride_glide_driver_app/firebase_options.dart';
 import 'package:ride_glide_driver_app/generated/l10n.dart';
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
-
-  print("Handling a background message: ${message.messageId}");
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  loadMapStyles();
   await Hive.initFlutter();
   Hive.registerAdapter(DriverModelAdapter());
   await Hive.openBox<DriverModel>(kDriverBox);
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   setupServiceLocator();
-  runApp(const RideGLideDriverApp());
+  runApp(ChangeNotifierProvider(
+    create: (_) => ThemeProvider(),
+    child: const RideGLideDriverApp(),
+  ));
   Bloc.observer = SimpleBLocObserver();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-
-  debugPrint('User granted permission: ${settings.authorizationStatus}');
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
-
-    if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
-    }
-  });
 }
 
 class RideGLideDriverApp extends StatelessWidget {
@@ -71,6 +48,7 @@ class RideGLideDriverApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -92,21 +70,48 @@ class RideGLideDriverApp extends StatelessWidget {
           create: (context) => DeletePasswordCubit(),
         ),
         BlocProvider(
+          create: (context) => LanguageCubit(),
+        ),
+        BlocProvider(
           create: (context) => EmailPaswwordCubit(AuthRepo()),
         ),
       ],
-      child: MaterialApp.router(
-        locale: const Locale('ar'),
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        routerConfig: AppRouter.router,
-        debugShowCheckedModeBanner: false,
-        theme: theme(),
+      child: BlocBuilder<LanguageCubit, LanguageState>(
+        builder: (context, state) {
+          if (state is LanguageSuccess) {
+            return MaterialApp.router(
+              locale: state.local,
+              localizationsDelegates: const [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              routerConfig: AppRouter.router,
+              debugShowCheckedModeBanner: false,
+              theme: lightTheme(),
+              darkTheme: darkTheme(),
+              themeMode: themeProvider.themeMode,
+            );
+          } else {
+            return MaterialApp.router(
+              locale: const Locale('en'),
+              localizationsDelegates: const [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              routerConfig: AppRouter.router,
+              debugShowCheckedModeBanner: false,
+              theme: lightTheme(),
+              darkTheme: darkTheme(),
+              themeMode: themeProvider.themeMode,
+            );
+          }
+        },
       ),
     );
   }

@@ -69,6 +69,7 @@ dependencies:
   phone_form_field: ^8.1.0
   location: null
   gap: ^3.0.1
+  provider: ^6.0.5
 
 dev_dependencies:
   hive_generator: null

@@ -60,9 +60,14 @@ class _NewRideRouteBodyState extends State<NewRideRouteBody> {
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
-      mapType: MapType.terrain,
-      onMapCreated: ((GoogleMapController controller) =>
-          _mapController.complete(controller)),
+      onMapCreated: ((GoogleMapController controller) {
+        if (Theme.of(context).brightness == Brightness.dark) {
+          controller.setMapStyle(darkMapStyle);
+        } else {
+          controller.setMapStyle(lightMapStyle);
+        }
+        _mapController.complete(controller);
+      }),
       initialCameraPosition: CameraPosition(
         target: _currentP,
         zoom: 13,
